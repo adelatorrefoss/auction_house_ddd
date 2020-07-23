@@ -15,6 +15,11 @@ public class ActionFactory {
             public void save(Auction auction) {
                 auctions.put(auction.id, auction);
             }
+
+            @Override
+            public Auction retrieveById(String id) {
+                return null;
+            }
         });
     }
 }

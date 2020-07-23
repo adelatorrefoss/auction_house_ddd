@@ -17,6 +17,7 @@ public class Auction {
     public final Money conquerPriceAmount;
     public final LocalDate expirationDay;
     public final String ownerId;
+    public Money currentBidAmount;
 
     private Auction(String name, String description, Money initialBidAmount, Money conquerPriceAmount, LocalDate expirationDay, String ownerId) {
         this.id = UUID.randomUUID().toString();
