@@ -17,7 +17,7 @@ public class Auction {
     public final Money conquerPriceAmount;
     public final LocalDate expirationDay;
     public final String ownerId;
-    public Money currentBidAmount;
+    private Money currentBidAmount;
 
     private Auction(String name, String description, Money initialBidAmount, Money conquerPriceAmount, LocalDate expirationDay, String ownerId) {
         this.id = UUID.randomUUID().toString();
@@ -27,6 +27,7 @@ public class Auction {
         this.conquerPriceAmount = conquerPriceAmount;
         this.expirationDay = expirationDay;
         this.ownerId = ownerId;
+        this.setCurrentBidAmount(initialBidAmount);
     }
 
     public static Auction anAuction(String name, String description, Money initialBidAmount, Money conquerPriceAmount, LocalDate expirationDay, String ownerId) {
@@ -38,5 +39,17 @@ public class Auction {
     @Override
     public String toString() {
         return ToStringBuilder.reflectionToString(this, ToStringStyle.MULTI_LINE_STYLE);
+    }
+
+    public void overbid(Money bidAmount) {
+        setCurrentBidAmount(bidAmount);
+    }
+
+    public Money getCurrentBidAmount() {
+        return currentBidAmount;
+    }
+
+    public void setCurrentBidAmount(Money currentBidAmount) {
+        this.currentBidAmount = currentBidAmount;
     }
 }

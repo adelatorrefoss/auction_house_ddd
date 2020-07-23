@@ -14,7 +14,6 @@ import static com.codesai.auction_house.business.model.generic.Money.money;
 import static java.time.LocalDate.now;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.mockito.Mockito.*;
-import static org.mockito.Mockito.times;
 
 public class OverbidAuctionActionShould {
     public static final String ANY_ITEM_NAME = "An Item" + UUID.randomUUID();
@@ -27,7 +26,6 @@ public class OverbidAuctionActionShould {
 
     @Test
     public void overbid_auction() {
-        OverbidAuctionCommand command = new OverbidAuctionCommand(ANY_ITEM_NAME, ANY_BID_AMOUNT);
 
         AuctionRepository auctionRepository = mock(AuctionRepository.class);
         Auction auction = Auction.anAuction(ANY_ITEM_NAME,
@@ -36,6 +34,8 @@ public class OverbidAuctionActionShould {
                 money(ANY_CONQUER_PRICE_AMOUNT),
                 ANY_EXPIRATION_DAY,
                 ANY_OWNER_ID);
+        OverbidAuctionCommand command = new OverbidAuctionCommand(auction.id, ANY_BID_AMOUNT);
+
         when(auctionRepository.retrieveById(auction.id)).thenReturn(auction);
 
         OverbidAuctionAction action = new OverbidAuctionAction(auctionRepository);
@@ -43,6 +43,6 @@ public class OverbidAuctionActionShould {
 
         ArgumentCaptor<Auction> captor = ArgumentCaptor.forClass(Auction.class);
         verify(auctionRepository, times(1)).save(captor.capture());
-        assertThat(captor.getValue().currentBidAmount).isEqualTo(money(ANY_BID_AMOUNT));
+        assertThat(captor.getValue().getCurrentBidAmount()).isEqualTo(money(ANY_BID_AMOUNT));
     }
 }
